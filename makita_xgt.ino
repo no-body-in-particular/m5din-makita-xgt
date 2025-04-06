@@ -31,8 +31,6 @@ void get_model(char* out) {
   out[8] = 0;
 }
 
-
-
 uint8_t shortcrc(uint8_t* rxBuf, uint8_t length) {  //calculate CRC based on data recieved from battery.
   uint16_t crc = rxBuf[0];
 
@@ -42,28 +40,6 @@ uint8_t shortcrc(uint8_t* rxBuf, uint8_t length) {  //calculate CRC based on dat
 
   return crc;
 }
-
-uint16_t longcrc(uint8_t* rxBuf, uint8_t length) {
-  uint16_t crc = 0;
-  length -= (rxBuf[3] & 0xF);  //subtract padding bytes
-
-  for (uint8_t i = 2; i < length - 2; i++) {  //loop through array of data starting at position 3 to exclude A5A5 header and excluding final word which is CRC
-    crc += rxBuf[i];
-  }
-  return crc;
-}
-
-void set_crc(uint8_t* rxBuf, uint8_t length) {
-  if (rxBuf[0] == 0xCC) {  //short message type
-    rxBuf[1] = shortcrc(rxBuf, length);
-  } else {  //long message type
-    uint16_t crc = longcrc(rxBuf, length);
-    length -= (rxBuf[3] & 0xF);  //subtract padding bytes
-    rxBuf[length - 2] = (crc & 0xff00) >> 8;
-    rxBuf[length - 1] = crc & 0xff;
-  }
-}
-
 
 void send_cmd(uint8_t* rpy, uint8_t cmd, uint8_t num_args, uint8_t* args) {
   uint8_t buffer[] = { 0xCC, 0x00, cmd, 0x00, 0x00, 0x00, 0x00, 0x33 };
@@ -81,17 +57,10 @@ void send_cmd(uint8_t* rpy, uint8_t cmd, uint8_t num_args, uint8_t* args) {
 
 void unlock() {
   uint8_t args[]={0x96, 0xA5};
-  uint8_t buffer[] = { 0xCC, 0x00, 0xD2, 0x2F, 0x00, 0x00, 0x00, 0x33 };
+  uint8_t args2[] = { 0x2F};
   uint8_t rpy[8];
-  
   send_cmd(rpy,0xD9,2,args);
-
-  memset(rpy, 0, 8);
-  int i = 0;
-  for (; (rpy[0] != 0xcc && rpy[1] == 0) && i < 3; i++) {
-    serial1.write(buffer, 8);  //write command to battery
-    serial1.read(rpy, 8);
-  }
+  send_cmd(rpy,0xD2,1,args2);
 }
 
 
@@ -333,6 +302,7 @@ void loop() {
         for(int i=0;i<6;i++){
            float level=levels[i]*(90.0f/255.0f);
            int x=5 + (i*40);
+           DinMeter.Display.drawRect(x, 20, 25, 90,GREEN);
            DinMeter.Display.fillRect(x, 110-level, 25, level,GREEN);
            DinMeter.Display.drawString(String((i+1) * step_current) + "A"  , x, 114);
         }
@@ -350,6 +320,7 @@ void loop() {
         for(int i=0;i<6;i++){
            float level=levels[i]*(90.0f/255.0f);
            int x=5 + (i*40);
+           DinMeter.Display.drawRect(x, 20, 25, 90,GREEN);
            DinMeter.Display.fillRect(x, 110-level, 25, level,GREEN);
            DinMeter.Display.drawString(String((i+1) * step_temp) + "c"  , x, 114);
         }
@@ -362,7 +333,7 @@ void loop() {
           }
           if (btnPressed) {
           unlock();
-        showDone();
+          showDone();
         nextNewScr = true;
       }
           break;
