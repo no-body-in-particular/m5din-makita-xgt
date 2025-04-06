@@ -6,4 +6,4 @@ Connection to m5din is wired thus, and a wire is pulled from the + of the batter
 You can find the pins on the battery here: 
 ![image](https://github.com/user-attachments/assets/ca3b5b33-e5bd-4d47-9f4f-8ebfb2bb97cf)
 
-You will also need to solder over the fuse, the easiest way to do this, is to use a dremel or similar tool to scrape off the insulation layer on the top of the PCB as explained on my youtube.
+You will also need to solder over the fuse, the easiest way to do this, is to use a dremel or similar tool to scrape off the insulation layer on the top of the PCB as explained on my youtube: https://www.youtube.com/watch?v=0eV-fzQYKgs 
