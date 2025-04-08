@@ -20,6 +20,7 @@ void get_model(char* out) {
   for (; i < 9 && buffer[0] == 0; i++) {
     serial1.write(cmd, 32);  //write command to battery
     serial1.read(buffer, 32);
+    delay(5);
   }
 
   if (i != 9) {
