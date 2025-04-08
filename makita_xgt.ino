@@ -47,7 +47,7 @@ void send_cmd(uint8_t* rpy, uint8_t cmd, uint8_t num_args, uint8_t* args) {
   memcpy(buffer + 3, args, num_args);
   buffer[1] = shortcrc(buffer, 8);
 
-  for (int i = 0; (rpy[0] != 0xcc && rpy[1] == 0) && i < 3; i++) {
+  for (int i = 0; !(rpy[0] == 0xcc && rpy[1] == shortcrc(rpy, 8)) && i < 16; i++) {
     serial1.write(buffer, 8);  //write command to battery
     serial1.read(rpy, 8);
   }
@@ -287,7 +287,6 @@ void loop() {
                   DinMeter.Display.drawString("V" + String(i)+":" + String(voltages[i]) + " " + "V" + String(i+1)+":" + String(voltages[i+1]) , 5, 33+((i>>1)*15));
 
         }
-    //    readSensors();
       }
       break;
 
@@ -334,8 +333,8 @@ void loop() {
           if (btnPressed) {
           unlock();
           showDone();
-        nextNewScr = true;
-      }
+          nextNewScr = true;
+          }
           break;
       }
   }
