@@ -50,9 +50,10 @@ void send_cmd(uint8_t* rpy, uint8_t cmd, uint8_t num_args, uint8_t* args) {
   for (int i = 0; !(rpy[0] == 0xcc && rpy[1] == shortcrc(rpy, 8)) && i < 16; i++) {
     serial1.write(buffer, 8);  //write command to battery
     serial1.read(rpy, 8);
+    delay(1);
   }
-
-  delay(5);
+  
+  delay(4);
 }
 
 void unlock() {
