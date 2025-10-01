@@ -235,7 +235,7 @@ void loop() {
     }
 
     screen = screen < 0 ? 4 : screen;
-    screen = screen > 4 ? 4 : screen;
+    screen = screen > 4 ? 0 : screen;
 
     newScr = true;
 
