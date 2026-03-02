@@ -255,7 +255,6 @@ void loop() {
     case 0:
       if (btnPressed || newScr) {
         DinMeter.Display.clear();
-        unlock();
         char model[10];get_model(model);
         float paralel_cells=cell_parallel();
         float cap=cell_capacity();
