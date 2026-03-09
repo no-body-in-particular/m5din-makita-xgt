@@ -261,8 +261,8 @@ void loop() {
         DinMeter.Display.drawString("Model: " + String(model), 5, 3);
         DinMeter.Display.drawString("Charge count: " + String(num_charges()), 5, 18);
         DinMeter.Display.drawString("Lockout flag: " + String(get_lockout()), 5, 33);
-        DinMeter.Display.drawString("OrigCap: " + String(cap*paralel_cells) + " MaH", 5, 48);
-        DinMeter.Display.drawString("RemCap: " + String(remaining_capacity()) + " MaH", 5, 63);
+        DinMeter.Display.drawString("OrigCap: " + String(cap*paralel_cells) + " mAh", 5, 48);
+        DinMeter.Display.drawString("RemCap: " + String(remaining_capacity()) + " mAh", 5, 63);
         DinMeter.Display.drawString("Charge: " + String(charge_percentage()) + "%", 5, 78);
         DinMeter.Display.drawString("Cells parallel: " + String(paralel_cells), 5, 93);
         DinMeter.Display.drawString("T1:" + String(temperature_a())+"c  T2:" + String(temperature_b()), 5, 108);
